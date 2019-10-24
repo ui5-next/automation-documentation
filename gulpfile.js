@@ -71,7 +71,7 @@ var copy = ({ preload = false, offline = false }) => {
     gulp.src("./package.json").pipe(
       eagerPreload({
         title: APP_NAME,
-        theme: "sap_belize",
+        theme: "sap_fiori_3",
         bootScriptPath: "./index.js",
         ui5ResourceRoot: resourceRoot,
         preload,
@@ -147,6 +147,7 @@ gulp.task("bs:silent", () => {
       baseDir: DEST_ROOT,
       middleware: middlewares
     },
+    online: false,
     open: false,
     reloadDebounce: 2 * 1000,
     notify: false,
@@ -181,7 +182,7 @@ gulp.task("reload", done => {
     // wait 500ms to reload
     browserSync.reload();
     done();
-  }, 500);
+  }, 100);
 });
 
 gulp.task("build-js", buildJs);

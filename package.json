@@ -16,14 +16,22 @@
   "ui5": {
     "namespace": "org.fornever.auto.documentation",
     "build": {
-      "resource": "https://openui5.hana.ondemand.com/1.68.1/resources/",
+      "resource": "https://openui5.hana.ondemand.com/1.71.1/resources/",
       "src": "./src",
       "dist": "./dist",
       "offline": false
     }
   },
   "dependencies": {
-    "lodash": "^4"
+    "@openui5/sap.m": "^1.71.1",
+    "@openui5/sap.ui.core": "^1.71.1",
+    "@openui5/sap.ui.layout": "^1.71.1",
+    "grammar-pdi": "^1.0.2",
+    "lodash": "^4",
+    "redux": "^4.0.4",
+    "redux-persist": "^5.10.0",
+    "redux-thunk": "^2.3.0",
+    "simplemde": "^1.11.2"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0",

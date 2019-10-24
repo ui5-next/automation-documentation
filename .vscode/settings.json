@@ -7,9 +7,11 @@
     "files.eol": "\n",
     "javascript.validate.enable": false,
     "cSpell.words": [
+        "BODL",
         "Netlify",
         "devtools",
         "fiori",
+        "fornever",
         "middlewares",
         "northwind",
         "openui",
