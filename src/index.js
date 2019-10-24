@@ -6,7 +6,6 @@ import PaneContainer from "sap/ui/layout/PaneContainer";
 import SplitPane from "sap/ui/layout/SplitPane";
 import MonacoEditor from "./control/MonacoEditor";
 import { GlobalStore } from "./store/Store";
-import MarkdownEditor from "./control/MarkdownEditor";
 
 Core.attachInit(() => {
 
@@ -19,7 +18,6 @@ Core.attachInit(() => {
           <PaneContainer
             panes={[
               <SplitPane><MonacoEditor value="{/leftText}" type="text" /></SplitPane>,
-              <SplitPane><MarkdownEditor value={{ path: "/leftText" }} /></SplitPane>
             ]}
           />
         ]}

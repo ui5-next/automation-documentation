@@ -1,4 +1,5 @@
 import Control from "sap/ui/core/Control";
+import includeJavaScript from "sap/ui/dom/includeScript";
 
 interface Props {
   value: string,
@@ -30,7 +31,7 @@ export default class MonacoEditor extends Control<Props> {
       },
       types: {
         type: "any",
-        defaultValue: [ ]
+        defaultValue: []
       },
       width: {
         type: "sap.ui.core.CSSSize",
@@ -82,7 +83,7 @@ export default class MonacoEditor extends Control<Props> {
       },
       monacoEditorSource: {
         type: "string",
-        defaultValue: "https://cdn.bootcss.com/monaco-editor/0.17.0/min/vs"
+        defaultValue: "https://cdn.bootcss.com/monaco-editor/0.18.0/min/vs"
       }
     },
     events: {
@@ -120,7 +121,7 @@ export default class MonacoEditor extends Control<Props> {
 
     if (!window.require) {
       // load requirejs
-      jQuery.sap.includeScript(this.getRequirejsSource(), "requirejs", this._setupEditor.bind(this));
+      includeJavaScript(this.getRequirejsSource(), "requirejs", this._setupEditor.bind(this));
     } else {
       this._setupEditor.bind(this)();
     }
