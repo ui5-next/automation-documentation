@@ -134,7 +134,8 @@ gulp.task("bs", () => {
       baseDir: DEST_ROOT,
       middleware: middlewares
     },
-    reloadDebounce: 5 * 1000,
+    online: false,
+    reloadDebounce: 300,
     notify: false,
     startPath: "/"
   });
@@ -149,7 +150,7 @@ gulp.task("bs:silent", () => {
     },
     online: false,
     open: false,
-    reloadDebounce: 2 * 1000,
+    reloadDebounce: 300,
     notify: false,
     startPath: "/"
   });
@@ -178,11 +179,8 @@ gulp.task("watch:preload", () => {
 });
 
 gulp.task("reload", done => {
-  setTimeout(() => {
-    // wait 500ms to reload
-    browserSync.reload();
-    done();
-  }, 100);
+  browserSync.reload();
+  done();
 });
 
 gulp.task("build-js", buildJs);

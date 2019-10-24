@@ -50,7 +50,7 @@ export default class MarkdownEditor extends Control<Props> {
 
     oDomRef.appendChild(this._oEditorDomRef);
 
-    this._oEditor = new SimpleMDE({ element: this._oEditorDomRef, initialValue: "# title" });
+    this._oEditor = new SimpleMDE({ element: this._oEditorDomRef, initialValue: this.getValue() });
 
   }
 

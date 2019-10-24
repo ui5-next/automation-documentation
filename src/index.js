@@ -7,7 +7,6 @@ import SplitPane from "sap/ui/layout/SplitPane";
 import MonacoEditor from "./control/MonacoEditor";
 import { GlobalStore } from "./store/Store";
 import MarkdownEditor from "./control/MarkdownEditor";
-import { parseBODLMetaData } from "./ast/index";
 
 Core.attachInit(() => {
 
@@ -20,7 +19,7 @@ Core.attachInit(() => {
           <PaneContainer
             panes={[
               <SplitPane><MonacoEditor value="{/leftText}" type="text" /></SplitPane>,
-              <SplitPane><MarkdownEditor value={{ path: "/leftText", formatter: parseBODLMetaData }} /></SplitPane>
+              <SplitPane><MarkdownEditor value={{ path: "/leftText" }} /></SplitPane>
             ]}
           />
         ]}
