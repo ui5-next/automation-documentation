@@ -33,11 +33,12 @@ var resourceRoot = packageJson.ui5.build.resource;
 
 var buildJs = ({ sourcemap }) => {
   // use to avoid an error cause whole gulp failed
+  var rt = gulp.src([`${SRC_ROOT}/**/*.js`, `${SRC_ROOT}/**/*.ts`, `${SRC_ROOT}/**/*.tsx`, `!${SRC_ROOT}/**/lib/*.js`]);
+
   var b = babel(babelConfig).on("error", e => {
     console.log(e.stack);
     b.end();
   });
-  var rt = gulp.src([`${SRC_ROOT}/**/*.js`, `${SRC_ROOT}/**/*.ts`, `${SRC_ROOT}/**/*.tsx`, `!${SRC_ROOT}/**/lib/*.js`]);
   if (sourcemap) {
     rt = rt.pipe(sourcemaps.init());
   }
@@ -45,6 +46,7 @@ var buildJs = ({ sourcemap }) => {
   if (sourcemap) {
     rt = rt.pipe(sourcemaps.write({ sourceRoot: "/sourcemaps" }));
   }
+
   return rt;
 };
 

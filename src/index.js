@@ -6,6 +6,10 @@ import PaneContainer from "sap/ui/layout/PaneContainer";
 import SplitPane from "sap/ui/layout/SplitPane";
 import { GlobalStore } from "./store/Store";
 import MonacoEditor from "./control/monaco/MonacoEditor";
+import Tree from "sap/m/Tree";
+import FlexBox from "sap/m/FlexBox";
+import Text from "sap/m/Text";
+import CustomTreeItem from "sap/m/CustomTreeItem";
 
 Core.attachInit(() => {
 
@@ -17,7 +21,23 @@ Core.attachInit(() => {
         rootPaneContainer={[
           <PaneContainer
             panes={[
-              <SplitPane><MonacoEditor value="{/leftText}" type="bodl" /></SplitPane>
+              <SplitPane>
+                <MonacoEditor value="{/source}" type="bodl" />
+              </SplitPane>,
+              <SplitPane>
+                <Tree
+                  items={{
+                    path:"/ast",
+                    template:(
+                      <CustomTreeItem>
+                        <FlexBox
+                          items={[<Text text="{type}" />, <Text text="{description}" />]}
+                        />
+                      </CustomTreeItem>
+                    )
+                  }}
+                />
+              </SplitPane>
             ]}
           />
         ]}

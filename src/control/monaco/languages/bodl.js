@@ -18,10 +18,6 @@ export const BODLTokenProvider = {
     "as"
   ],
 
-  typeKeywords: [
-    "any", "boolean", "number", "object", "string", "undefined"
-  ],
-
   operators: [
     "=", "==", "!=", ">=", ">", "<", "<="
   ],
@@ -47,7 +43,6 @@ export const BODLTokenProvider = {
       // identifiers and keywords
       [/[a-z_$][\w$]*/, {
         cases: {
-          "@typeKeywords": "keyword",
           "@keywords": "keyword",
           "@default": "identifier"
         }

@@ -8,6 +8,7 @@ import ReduxThunk from "redux-thunk";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import cloneDeep from "lodash/cloneDeep";
+import isArray from "lodash/isArray";
 
 import { get } from "./Util";
 
@@ -235,6 +236,10 @@ export default class ReduxModel<T> extends ClientModel {
 
   bindList(sPath, oContext, aSorters, aFilters, mParameters) {
     return new ReduxListBinding(this, sPath, oContext, aSorters, aFilters, mParameters);
+  }
+
+  isList(sPath) {
+    return isArray(this._getObject(sPath));
   }
 
 }

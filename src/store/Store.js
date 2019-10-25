@@ -5,7 +5,17 @@ import ReduxModel from "./redux/ReduxModel";
  */
 const AppInitState = {
   title: "Automation Documentation",
-  leftTest: ""
+  source: "",
+  ast: [
+    {
+      "text": "Node1",
+      "ref": "sap-icon://attachment-audio"
+    },
+    {
+      "text": "Node2",
+      "ref": "sap-icon://customer-financial-fact-sheet"
+    }
+  ]
 };
 
 export const GlobalStore = new ReduxModel(AppInitState);
