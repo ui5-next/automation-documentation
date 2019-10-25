@@ -5,7 +5,8 @@ import { BODLTokenProvider } from "./languages/bodl";
 interface Props {
   value: string,
   type: string,
-  theme: string
+  theme: string,
+  liveChange: Function;
 }
 
 /**

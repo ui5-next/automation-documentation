@@ -86,6 +86,8 @@ export default class ReduxModel<T> extends ClientModel {
 
     this._persister = persistStore(this._store);
 
+    this._transformers = {};
+
     this._store.subscribe(() => {
       // once any data updated, perform check
       this.checkUpdate();
@@ -184,6 +186,9 @@ export default class ReduxModel<T> extends ClientModel {
       } else {
         oNode = oState[aParts[1]];
         iIndex = 2;
+      }
+      if (typeof oNode === "function") {
+        oNode = oNode(oState, oContext);
       }
     }
 

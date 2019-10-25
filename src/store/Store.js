@@ -1,21 +1,15 @@
 import ReduxModel from "./redux/ReduxModel";
+import { parseBODLMetaData } from "../ast/parser";
+import { complexBOSource } from "./examples/BODLExample";
 
 /**
  * Application initialize state
  */
 const AppInitState = {
   title: "Automation Documentation",
-  source: "",
-  ast: [
-    {
-      "text": "Node1",
-      "ref": "sap-icon://attachment-audio"
-    },
-    {
-      "text": "Node2",
-      "ref": "sap-icon://customer-financial-fact-sheet"
-    }
-  ]
+  source: complexBOSource,
+  // calculated field
+  ast: oState => parseBODLMetaData(oState.source)
 };
 
 export const GlobalStore = new ReduxModel(AppInitState);

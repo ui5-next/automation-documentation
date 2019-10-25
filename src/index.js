@@ -8,43 +8,72 @@ import { GlobalStore } from "./store/Store";
 import MonacoEditor from "./control/monaco/MonacoEditor";
 import Tree from "sap/m/Tree";
 import FlexBox from "sap/m/FlexBox";
-import Text from "sap/m/Text";
 import CustomTreeItem from "sap/m/CustomTreeItem";
+import includeScript from "sap/ui/dom/includeScript";
+import GenericTag from "sap/m/GenericTag";
+import FlexDirection from "sap/m/FlexDirection";
+import Text from "sap/m/Text";
+import InfoLabel from "sap/tnt/InfoLabel";
 
 Core.attachInit(() => {
 
-  // after init, dom UIArea is available
+  // load grammar parser
+  includeScript("https://unpkg.com/grammar-pdi@1.0.5/dist/grammar-pdi-umd.js", "grammar-pdi", () => {
 
-  const app: App = <App pages={
-    <Page title="{/title}">
-      <ResponsiveSplitter
-        rootPaneContainer={[
-          <PaneContainer
-            panes={[
-              <SplitPane>
-                <MonacoEditor value="{/source}" type="bodl" />
-              </SplitPane>,
-              <SplitPane>
-                <Tree
-                  items={{
-                    path:"/ast",
-                    template:(
-                      <CustomTreeItem>
-                        <FlexBox
-                          items={[<Text text="{type}" />, <Text text="{description}" />]}
-                        />
-                      </CustomTreeItem>
-                    )
-                  }}
-                />
-              </SplitPane>
-            ]}
-          />
-        ]}
-      />
-    </Page>
-  } />;
+    // after init, dom UIArea is available
 
-  app.setModel(GlobalStore).placeAt("content");
+    const app: App = <App pages={
+      <Page title="{/title}">
+        <ResponsiveSplitter
+          rootPaneContainer={[
+            <PaneContainer
+              panes={[
+                <SplitPane>
+                  <MonacoEditor value="{/source}" type="bodl" />
+                </SplitPane>,
+                <SplitPane>
+                  <Tree
+                    items={{
+                      path: "/ast",
+                      template: (
+                        <CustomTreeItem>
+                          <FlexBox
+                            direction={FlexDirection.Column}
+                            items={[
+                              <InfoLabel class="sapUiTinyMargin" text="{nodeType}" visible={{ path: "nodeType", formatter: v => Boolean(v) }} />,
+                              <Text class="sapUiTinyMargin" text="{comment}" visible={{ path: "comment", formatter: v => Boolean(v) }} />,
+                              <FlexBox direction={FlexDirection.Row}
+                                items={[
+                                  <GenericTag
+                                    class="sapUiTinyMarginBeginEnd"
+                                    visible={{ path: "type", formatter: v => Boolean(v) }}
+                                    text="{type}"
+                                  />,
+                                  <GenericTag
+                                    class="sapUiTinyMarginBeginEnd"
+                                    visible={{ path: "description", formatter: v => Boolean(v) }}
+                                    text="{description}"
+                                  />
+                                ]}
+                              />
+                            ]}
+                          />
+
+                        </CustomTreeItem>
+                      )
+                    }}
+                  />
+                </SplitPane>
+              ]}
+            />
+          ]}
+        />
+      </Page>
+    } />;
+
+    app.setModel(GlobalStore).placeAt("content");
+  });
+
+
 
 });
