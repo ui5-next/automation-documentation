@@ -1,3 +1,5 @@
 **/lib/**
 **/dist/**
 **/www/**
+src/store/examples
+src/control/monaco/languages
