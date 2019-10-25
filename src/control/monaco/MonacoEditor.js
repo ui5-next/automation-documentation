@@ -1,5 +1,6 @@
 import Control from "sap/ui/core/Control";
 import includeJavaScript from "sap/ui/dom/includeScript";
+import { BODLTokenProvider } from "./languages/bodl";
 
 interface Props {
   value: string,
@@ -158,6 +159,8 @@ export default class MonacoEditor extends Control<Props> {
     // load monaco editor
     require(["vs/editor/editor.main"], monaco => {
 
+      this._registerBODLLanguage(monaco);
+
       this._oEditor = monaco.editor.create(this._oEditorDomRef, this._getEditorOption());
 
       this._oEditor.getModel().onDidChangeContent(this._onEditorValueChange.bind(this));
@@ -181,6 +184,11 @@ export default class MonacoEditor extends Control<Props> {
 
     });
 
+  }
+
+  _registerBODLLanguage(monaco) {
+    monaco.languages.register({ id: "bodl" });
+    monaco.languages.setMonarchTokensProvider("bodl", BODLTokenProvider);
   }
 
   /**

@@ -4,8 +4,8 @@ import Page from "sap/m/Page";
 import ResponsiveSplitter from "sap/ui/layout/ResponsiveSplitter";
 import PaneContainer from "sap/ui/layout/PaneContainer";
 import SplitPane from "sap/ui/layout/SplitPane";
-import MonacoEditor from "./control/MonacoEditor";
 import { GlobalStore } from "./store/Store";
+import MonacoEditor from "./control/monaco/MonacoEditor";
 
 Core.attachInit(() => {
 
@@ -17,7 +17,7 @@ Core.attachInit(() => {
         rootPaneContainer={[
           <PaneContainer
             panes={[
-              <SplitPane><MonacoEditor value="{/leftText}" type="text" /></SplitPane>,
+              <SplitPane><MonacoEditor value="{/leftText}" type="bodl" /></SplitPane>
             ]}
           />
         ]}
