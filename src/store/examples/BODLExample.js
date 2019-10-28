@@ -4,9 +4,14 @@ export const complexBOSource = `
 // @author Theo Sun
 import Common.Hello as Hello;
 
+/*
+  'The Worlds of Robert F Young: Sixteen Stories of Science Fiction and Fantasy'
+  'Day before yesterday I saw a rabbit, and yesterday a deer, and today, you.'
+*/
 [ChangeHistory]
-[WillDeprecated("This object will be deprecated after 2019 year")]
+/// [WillDeprecated("This object will be deprecated after 2019 year")]
 [DeploymentUnit(CustomerRelationshipManagement)] 
+/// [Label("Foundation Test BO")]
 /// [Author("Theo Sun")]
 /// [Copyright("SAP ISS IBSO Chengdu Team")]
 businessobject BO_FDNTest raises ERROR {

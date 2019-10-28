@@ -14,66 +14,74 @@ import GenericTag from "sap/m/GenericTag";
 import FlexDirection from "sap/m/FlexDirection";
 import Text from "sap/m/Text";
 import InfoLabel from "sap/tnt/InfoLabel";
+import PDFMaker from "./control/pdf/PDFMaker";
 
-Core.attachInit(() => {
+Core.attachInit(async() => {
 
-  // load grammar parser
-  includeScript("https://unpkg.com/grammar-pdi@1.0.5/dist/grammar-pdi-umd.js", "grammar-pdi", () => {
+  // let pdf make loaded firstly
+  await includeScript({ url: "https://cdn.bootcss.com/pdfmake/0.1.60/pdfmake.min.js" });
 
-    // after init, dom UIArea is available
+  // parallel load other libraries
+  await Promise.all(
+    [
+      "https://cdn.bootcss.com/pdfmake/0.1.60/vfs_fonts.js",
+      "https://unpkg.com/grammar-pdi@1.0.6/dist/grammar-pdi-umd.js"
+    ].map(url => includeScript({ url }))
+  );
 
-    const app: App = <App pages={
-      <Page title="{/title}">
-        <ResponsiveSplitter
-          rootPaneContainer={[
-            <PaneContainer
-              panes={[
-                <SplitPane>
-                  <MonacoEditor value="{/source}" type="bodl" />
-                </SplitPane>,
-                <SplitPane>
-                  <Tree
-                    items={{
-                      path: "/ast",
-                      template: (
-                        <CustomTreeItem>
-                          <FlexBox
-                            direction={FlexDirection.Column}
-                            items={[
-                              <InfoLabel class="sapUiTinyMargin" text="{nodeType}" visible={{ path: "nodeType", formatter: v => Boolean(v) }} />,
-                              <Text class="sapUiTinyMargin" text="{comment}" visible={{ path: "comment", formatter: v => Boolean(v) }} />,
-                              <FlexBox direction={FlexDirection.Row}
-                                items={[
-                                  <GenericTag
-                                    class="sapUiTinyMarginBeginEnd"
-                                    visible={{ path: "type", formatter: v => Boolean(v) }}
-                                    text="{type}"
-                                  />,
-                                  <GenericTag
-                                    class="sapUiTinyMarginBeginEnd"
-                                    visible={{ path: "description", formatter: v => Boolean(v) }}
-                                    text="{description}"
-                                  />
-                                ]}
-                              />
-                            ]}
-                          />
+  // after init, dom UIArea is available
+  const app: App = <App pages={
+    <Page title="{/title}">
+      <ResponsiveSplitter
+        rootPaneContainer={[
+          <PaneContainer
+            panes={[
+              <SplitPane>
+                <MonacoEditor value="{/source}" type="bodl" />
+              </SplitPane>,
+              <SplitPane>
+                <Tree
+                  items={{
+                    path: "/ast",
+                    template: (
+                      <CustomTreeItem >
+                        <FlexBox
+                          direction={FlexDirection.Column}
+                          items={[
+                            <InfoLabel class="sapUiTinyMargin" text="{nodeType}" visible={{ path: "nodeType", formatter: v => Boolean(v) }} />,
+                            <Text class="sapUiTinyMargin" text="{comment}" visible={{ path: "comment", formatter: v => Boolean(v) }} />,
+                            <FlexBox direction={FlexDirection.Row}
+                              items={[
+                                <GenericTag
+                                  class="sapUiTinyMarginBeginEnd"
+                                  visible={{ path: "type", formatter: v => Boolean(v) }}
+                                  text="{type}"
+                                />,
+                                <GenericTag
+                                  class="sapUiTinyMarginBeginEnd"
+                                  visible={{ path: "description", formatter: v => Boolean(v) }}
+                                  text="{description}"
+                                />
+                              ]}
+                            />
+                          ]}
+                        />
 
-                        </CustomTreeItem>
-                      )
-                    }}
-                  />
-                </SplitPane>
-              ]}
-            />
-          ]}
-        />
-      </Page>
-    } />;
+                      </CustomTreeItem>
+                    )
+                  }}
+                />
+              </SplitPane>,
+              <SplitPane>
+                <PDFMaker value="{/doc}" />
+              </SplitPane>
+            ]}
+          />
+        ]}
+      />
+    </Page>
+  } />;
 
-    app.setModel(GlobalStore).placeAt("content");
-  });
-
-
+  app.setModel(GlobalStore).placeAt("content");
 
 });
