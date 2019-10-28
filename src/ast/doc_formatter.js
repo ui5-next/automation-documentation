@@ -15,7 +15,13 @@ const styles = {
     ...tinyMarginTopBottom
   },
   h2: {
-    fontSize: 23,
+    fontSize: 16,
+    bold: true,
+    color: "lightblue",
+    ...tinyMarginTopBottom
+  },
+  h3: {
+    fontSize: 14,
     bold: true,
     color: "lightblue",
     ...tinyMarginTopBottom
@@ -69,6 +75,7 @@ export const documentFormatter = (source) => {
       {
         text: `Business Object ${BOLabelName || BOName}`,
         style: "h2",
+        pageBreak: "before",
         tocItem: true
       },
       {
@@ -77,7 +84,7 @@ export const documentFormatter = (source) => {
       },
       {
         text: "Attributes",
-        style: "h2",
+        style: "h3",
         tocItem: true
 
       },
