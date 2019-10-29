@@ -26,6 +26,7 @@ export default class PDFMaker extends Control<Props> {
     this._pdfRef.type = "application/pdf";
     this._pdfRef.style.height = "100%";
     this._pdfRef.style.width = "100%";
+    this._pdfRef.src = "about:blank";
 
     this.setBusyIndicatorDelay(0);
 

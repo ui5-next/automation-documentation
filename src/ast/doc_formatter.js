@@ -56,8 +56,7 @@ export const documentFormatter = (source) => {
     BOLabelName = BOLabel.literal().getText();
   }
 
-  let comments = bo1.comments().getText();
-
+  let comments = bo1.comments().children.map(c => ({ text: c.getText(), style: "comments" })) || [];
 
   return {
     header: {
@@ -78,10 +77,7 @@ export const documentFormatter = (source) => {
         pageBreak: "before",
         tocItem: true
       },
-      {
-        text: comments,
-        style: "comments"
-      },
+      ...comments,
       {
         text: "Attributes",
         style: "h3",

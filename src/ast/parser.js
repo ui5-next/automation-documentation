@@ -77,7 +77,7 @@ const parseNode = n => {
   return {
     description: id,
     nodeType: "Node",
-    comment: normalizeComment(n.comments().getText()),
+    comment: (n.comments().children || []).map(c => normalizeComment(c.getText())).join("\n"),
     nodes: [
       parseAttributes(n),
       parseElements(n),
