@@ -25,7 +25,7 @@ Core.attachInit(async() => {
   await Promise.all(
     [
       "https://cdn.bootcss.com/pdfmake/0.1.60/vfs_fonts.js",
-      "https://unpkg.com/grammar-pdi@1.0.6/dist/grammar-pdi-umd.js"
+      "https://unpkg.com/grammar-pdi@1.0.7/dist/grammar-pdi-umd.js"
     ].map(url => includeScript({ url }))
   );
 
@@ -48,8 +48,8 @@ Core.attachInit(async() => {
                         <FlexBox
                           direction={FlexDirection.Column}
                           items={[
-                            <InfoLabel class="sapUiTinyMargin" text="{nodeType}" visible={{ path: "nodeType", formatter: v => Boolean(v) }} />,
                             <Text class="sapUiTinyMargin" text="{comment}" visible={{ path: "comment", formatter: v => Boolean(v) }} />,
+                            <InfoLabel class="sapUiTinyMargin" text="{nodeType}" visible={{ path: "nodeType", formatter: v => Boolean(v) }} />,
                             <FlexBox direction={FlexDirection.Row}
                               items={[
                                 <GenericTag
@@ -64,6 +64,7 @@ Core.attachInit(async() => {
                                 />
                               ]}
                             />
+
                           ]}
                         />
 

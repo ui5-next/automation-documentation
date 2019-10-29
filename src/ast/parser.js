@@ -2,6 +2,20 @@ import md5 from "blueimp-md5";
 import trimStart from "lodash/trimStart";
 import trimEnd from "lodash/trimEnd";
 
+
+const normalizeComment = (s = "") => {
+  return trimEnd(trimStart(s.trim(), "/*"), "*/").split("\n").map(l => trimStart(l.trim(), "*")).filter(v => v)
+    .join("\n");
+};
+
+const parseComment = n => {
+  if (n.comments && n.comments()) {
+    return (n.comments().children || []).map(c => normalizeComment(c.getText())).join("\n");
+  } else {
+    return "";
+  }
+};
+
 const parseAnnotation = a => {
   var rt = {};
   var ids = a.identifier();
@@ -41,6 +55,7 @@ const parseElements = n => {
     nodes: n.block().itemList().element().map(e => ({
       type: e.identifier().getText(),
       nodeType: "element (field)",
+      comment: parseComment(e),
       description: e.typeDeclaration().getText(),
       nodes: [
         parseAttributes(e)
@@ -66,10 +81,15 @@ const parseAssociations = n => ({
   }))
 });
 
-const normalizeComment = (s = "") => {
-  return trimEnd(trimStart(s.trim(), "/*"), "*/").split("\n").map(l => trimStart(l.trim(), "*")).filter(v => v)
-    .join("\n");
-};
+const parseMessages = n => ({
+  type: "Messages",
+  nodes: n.block().itemList().message().map(m => ({
+    nodeType: "Message",
+    type: m.identifier().getText(),
+    description: m.StringLiteral().getText()
+
+  }))
+});
 
 const parseNode = n => {
   const id = n.identifier().getText();
@@ -77,9 +97,10 @@ const parseNode = n => {
   return {
     description: id,
     nodeType: "Node",
-    comment: (n.comments().children || []).map(c => normalizeComment(c.getText())).join("\n"),
-    nodes: [
+    comment: parseComment(n),
+    nodes: n.block() ? [
       parseAttributes(n),
+      parseMessages(n),
       parseElements(n),
       {
         type: "Nodes",
@@ -87,7 +108,7 @@ const parseNode = n => {
       },
       parseActions(n),
       parseAssociations(n)
-    ]
+    ] : []
   };
 };
 
