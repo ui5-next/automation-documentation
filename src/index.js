@@ -25,7 +25,7 @@ Core.attachInit(async() => {
   await Promise.all(
     [
       "https://cdn.bootcss.com/pdfmake/0.1.60/vfs_fonts.js",
-      "https://unpkg.com/grammar-pdi@1.0.7/dist/grammar-pdi-umd.js"
+      "https://unpkg.com/grammar-pdi@1.0.8/dist/grammar-pdi-umd.js"
     ].map(url => includeScript({ url }))
   );
 

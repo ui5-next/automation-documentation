@@ -57,9 +57,7 @@ const parseElements = n => {
       nodeType: "element (field)",
       comment: parseComment(e),
       description: e.typeDeclaration().getText(),
-      nodes: [
-        parseAttributes(e)
-      ]
+      nodes: [parseAttributes(e)]
     }))
   };
 };
@@ -77,7 +75,7 @@ const parseAssociations = n => ({
   type: "Associations",
   nodes: n.block().itemList().association().map(a => ({
     nodeType: "Association",
-    type: a.identifier()[0].getText()
+    type: a.identifier().getText()
   }))
 });
 

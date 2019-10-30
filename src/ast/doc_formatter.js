@@ -1,3 +1,5 @@
+import find from "lodash/find";
+import sortBy from "lodash/sortBy";
 
 const tinyMarginSize = 10;
 
@@ -39,6 +41,70 @@ const styles = {
   }
 };
 
+const findAnnotation = (node, name = "") => {
+  if (node && node.annotations) {
+    return find(node.annotations().annotation(), a => a.identifier()[0].getText() == name);
+  } else {
+    return undefined;
+  }
+};
+
+const parseBlockFields = (block) => {
+  if (block && block.element()) {
+
+    const rows = [];
+    const fieldAttrTypes = new Set();
+
+    block.element().forEach(e => {
+      const attrs = e.annotations().annotation();
+      attrs.forEach(attr => {
+        const t = attr.identifier()[0];
+        fieldAttrTypes.add(t.getText());
+      });
+    });
+
+    const header = sortBy(Array.from(fieldAttrTypes).map(t => ({ bold: true, text: t })), ["text"]);
+
+    rows.push([{ bold: true, text: "Field Name" }, { bold: true, text: "Field Type" }].concat(header));
+
+    block.element().forEach(e => {
+
+      const fieldName = e.identifier().getText();
+      const fieldType = e.typeDeclaration().getText();
+      const row = [fieldName, fieldType];
+
+      header.forEach(attrName => {
+        const eleAttr = findAnnotation(e, attrName.text);
+        if (eleAttr) {
+          const eleAttrId = eleAttr.identifier()[1];
+          const eleAttrLit = eleAttr.literal();
+          // annotation exist on this field
+          if (eleAttrId) {
+            row.push(eleAttr.identifier()[1].getText());
+          } else if (eleAttrLit) {
+            row.push(eleAttrLit.getText());
+          } else {
+            row.push("Yes");
+          }
+        } else {
+          row.push("No");
+        }
+
+      });
+
+      rows.push(row);
+
+    });
+
+    return rows;
+
+  } else {
+
+    return [[]];
+
+  }
+};
+
 export const documentFormatter = (source) => {
 
   // eslint-disable-next-line no-undef
@@ -56,7 +122,13 @@ export const documentFormatter = (source) => {
     BOLabelName = BOLabel.literal().getText();
   }
 
-  let comments = bo1.comments().children.map(c => ({ text: c.getText(), style: "comments" })) || [];
+  let comments = "";
+
+  if (bo1.comments()) {
+    comments = bo1.comments().children.map(c => ({ text: c.getText(), style: "comments" })) || [];
+  }
+
+  const elementsTable = parseBlockFields(bo1.block().itemList());
 
   return {
     header: {
@@ -82,7 +154,6 @@ export const documentFormatter = (source) => {
         text: "Attributes",
         style: "h3",
         tocItem: true
-
       },
       {
         style: "table",
@@ -90,7 +161,7 @@ export const documentFormatter = (source) => {
           headerRows: 1,
           widths: ["auto", "*"],
           body: [
-            ["Attribute Name", "Attribute Description"],
+            [{ text: "Attribute Name", bold: true }, { text: "Attribute Description", bold: true }],
             ...bo1.annotations().annotation().map(a => {
               var rt = new Array(2).fill("");
               var ids = a.identifier();
@@ -113,6 +184,19 @@ export const documentFormatter = (source) => {
 
             })
           ]
+        }
+      },
+      {
+        text: "Elements",
+        style: "h3",
+        tocItem: true
+      },
+      {
+        style: "table",
+        table: {
+          widths: new Array(elementsTable[0].length - 1).fill(`${Math.floor(100 / elementsTable[0].length)}%`).concat("*"),
+          headerRows: 1,
+          body: elementsTable
         }
       }
     ],
