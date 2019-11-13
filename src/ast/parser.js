@@ -84,6 +84,7 @@ const parseMessages = n => ({
   nodes: n.block().itemList().message().map(m => ({
     nodeType: "Message",
     type: m.identifier().getText(),
+    // eslint-disable-next-line new-cap
     description: m.StringLiteral().getText()
 
   }))

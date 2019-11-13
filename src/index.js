@@ -29,6 +29,7 @@ Core.attachInit(async() => {
     ].map(url => includeScript({ url }))
   );
 
+
   // after init, dom UIArea is available
   const app: App = <App pages={
     <Page title="{/title}">
@@ -84,5 +85,9 @@ Core.attachInit(async() => {
   } />;
 
   app.setModel(GlobalStore).placeAt("content");
+
+  if (window.loadingSpinner) {
+    window.loadingSpinner.stop();
+  }
 
 });

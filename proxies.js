@@ -11,6 +11,7 @@ module.exports =
       target: "https://services.odata.org/",
       // with http basic auth if necessary
       auth: "username:password",
+      logProvider: () => require("fancy-log"),
       pathRewrite: {
         "^/destinations/northwind": "/"
       },
